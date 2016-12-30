@@ -1,0 +1,55 @@
+		VJDE - Java 开发者的 vim 开发插件
+									*vjde*
+
+简介
+   本插件主要是用于Java开发过程中，对Java源代码和Jsp 源代码，以及部分XML代码的
+编辑和修改而开发设计的．
+　 在符合 Vim 7.0 的 |complete-functions|  的框架下，开发了Java 的开发插件，目
+前已经包含了如下的功能:
+
+   1. 代码提示
+   2. 项目管理
+   3. 重载函数
+   4. 实现接口
+　 5. 编译错误的修改提示
+   6. 变量级的简单重构．
+   7. 常用代码自动生成
+　 8. 代码模板支持
+   9. 向导支持
+  
+
+   Note: 由于个人觉得以上功能太过于复杂，因此，有部分功能并没有相应的命令行版
+本，推荐在GUI 模式下使用本插件，可以使用菜单来完成一些不经常使用的功能．
+
+1. 安装
+   本软件可以从 http://www.vim.org/scripts/script.php?script_id=1213 下载到最
+新版本．
+　 另外，在使用过程中，有很多功能需要 ruby 脚本支持，因此，需要到
+http://www.ruby-lang.org 下载一个 ruby ．对于 Linux 用户，目前的发行版都已经包
+含此模块，对于 windows 用户，可以到 http://rubyforge.org/frs/?group_id=167 下
+载一个安装包安装即可．
+  
+   对于 vim7 的 windows 版，可以到
+http://sourceforge.net/project/showfiles.php?group_id=43866&package_id=39721 
+下载一个包含了一些补丁的最新版．也可以到 http://www.vim.org/download.php#pc 下
+载一个7.0 的标准版本．
+
+   安装好 vim7 后，就可以安装 ruby ,然后安装 vjde. 我们将以 $VIM 来表示你的
+vim 所在的目录．
+   如，安装到 c:\program files\vim 时$VIM 就是 c:\program files\vim
+   在 Linux 系统上，通常是 /usr/share/vim 表示 $VIM.
+   Note: 在 windows 上安装时，最好把安装路径设置在一个不包含空格的路径下，如
+d:\vim 这样的地方，可以方便在命令行时使用．
+
+
+   安装VJDE ，只需要把 vjde.tgz 解压到 $VIM/vimfiles 目录即可．
+   对于 Linux , 可能是如下指令: >
+	tar -xzf vjde.tgz -C /usr/share/vim/vimfiles
+<
+
+
+
+
+
+===============================================================
+ vim:ts=8 sw=8 noexpandtab tw=78 ft=help:

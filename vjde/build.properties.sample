@@ -1,0 +1,27 @@
+# 编译配置文件
+ 
+
+#-------------------编译选项----------------------------
+#java源代码目录
+java.src.dir     =src
+
+#编译引用的jar文件的目录
+project.lib.dir  =lib
+
+#java编译目录
+dest.class.dir   =install/classes
+
+
+#生成的文档所在的目录
+dest.doc.dir     =doc/apidoc
+
+#ear的文件目录
+dest.ear.dir     =install/ear
+
+#war文件目录
+dest.war.dir     =install/war
+
+#java文件目录
+dest.lib.dir     =install/lib
+
+vim.plugin.dir	 =/usr/share/vim/vimfiles/plugin

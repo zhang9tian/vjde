@@ -1,0 +1,90 @@
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">在 JSP 中使用 VJDE</div></h3>
+		<hr>
+<ul>
+		<li><a href="#comp">Java 代码提示</a>
+		<li><a href="#taglib">TagLib 代码提示</a>
+		<li><a href="#custom">自定义 TagLib 代码提示</a>
+</ul>
+		<div class="t1" id="comp">Java 代码提示</div>
+		在HTML或者JSP编辑中,我们可以使用<span class="key">ctrl-x ctrl-o</span>来使用 VIM7自带的 HTML 代码提示, Javascript,css 文件编辑.<br>
+		在编辑JSP的过程中,我们使用<span class="key">ctrl-x ctrl-u</span>来完成代码提示. 当所处的位置不是Java 代码时,VJDE使用VIM7的HTML,JavaScript,CSS 提示来完成工作.<br>
+		在编辑Java的代码的位置,则使用与 上面提到的一样的代码提示来完成工作.<br>
+		同样,VJDE支持<span class="cd">session,request,response,page,application</span>这些内置的JSP变量.当然,为了使用这些功能,在创建工程的时候,请将 servletapi.jar 或者 j2ee.jar 添加到你的<span class="key">g:vjde_lib_path</span>中.<br>
+		或者,在编辑java 文件前,请使用命令<span class="key">:let g:vjde_lib_path=g:vjde_lib_path.';d:/tomcat/common/lib/servlet-api.jar'</span><br>
+		然后,开始编辑.在编辑<span class="cd">session.</span>后,我们使用命令<span class="key">ctrl-x ctrl-u</span>,可得如下图:<br>
+		<img src="images/jsp-1.jpg" border="0"/><br>
+		关于Java 代码提示,我就不再一一叙述了.<br><br>
+		<div class="t1" id="taglib">TagLib 代码提示</div>
+		下面,我们要讨论的是 TagLib 的代码提示.
+		目前,VJDE已经内置的支持STL的代码提示工作.它使用了VIM7的XML代码提示功能来完成这项任务.<br>
+		比如说,我们希望使用JSTL 中的 core ,就是通常简称为c 的这一系列,我们先使用命令<span class="key">:XMLns stl_c c</span>,这表示说,我们将使用 strl_c ,在编辑的时候,会写成 c:xx 这样的形式.<br>
+		然后我们输入如下代码:
+		<pre class="code">
+<html>
+<script language="JavaScript">
+</script>
+<body>
+<%
+session.getAttribute("");
+%>
+<c:
+</body>
+</html>
+		</pre>
+		然后,使用<span class="key">ctrl-x ctrl-u</span>,可见下图:<br>
+		<img src="images/jsp-2.jpg" border="0"/><br>
+		我们选择了<span class="cd">forEach</span> 后,输入空格,再次使用<span class="key">ctrl-x ctrl-u</span>,可见下图:<br>
+		<img src="images/jsp-3.jpg" border="0"/><br>
+		<br>
+		如果我们希望使用<span class="cd">sql</span>对应的标签库,只需要简单的使用<span class="key">:XMLns stl_sql sql</span>,对代码:
+		<pre class="code">
+<html>
+<script language="JavaScript">
+</script>
+<body>
+<%
+session.getAttribute("");
+%>
+<c:forEach var="item">
+</c:forEach>
+<sql:
+</body>
+</html>
+</pre>
+		然后,使用<span class="key">ctrl-x ctrl-u</span>,可见下图:<br>
+		<img src="images/jsp-4.jpg" border="0"/><br>
+		<br>
+		提示,<div class="note">目前,内置可用的是<span class="cd">stl_c,stl_sql,stl_x,stl_fmt</span></div>
+		当然了,我们的JSP是不能编译过的,taglib 的引用还没有定义呢.^_^<br>
+		<br>
+		<br>
+		<div class="t1" id="custom">自定义 TagLib 代码提示</div>
+		当然,不是每一个人都是使用 JSTL的,我们更多的时候,使用了自己或者其它的标签库,这怎么办呢?<br>
+		VJDE提供了一个方法,方便你将 tld 定义转换成一个 xmldata的定义.需要这个命令帮忙:<br>
+		<span class="key">:VjdeTld2Data &lt;tld file&gt; &lt;data name &gt;</span><br>
+		比如,要生成 JSTL 的 core 的标签库数据,我使用了如下的命令:<br>
+		<span class="key">:VjdeTld2Data e:/downloads/jstl/c.tld stl_c</span><br>
+		于是,我就生成了一个名为 stl_c 的xmldata 文件,其位置在<span class="cd">$VIM/vimfiles/autoload/xml/stl_c.vim</span><br>
+		使用的时候,我们使用<br>
+		<span class="key">:XMLns stl_c c</span><br>
+		表示,我们要使用数据<span class="cd"> stl_c</span> ,就是我们生成的数据,并且指出,当Namespace 为<span class="cd"> c</span> 的时候,我们才使用此数据.<br>
+		提示,<span class="note">即形如 <span class="cd">&lt;c:</span>的标签.</span>
+		<br>
+		<br>
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td width="33%"><a href="daily2.htm"><img src="images/previous.png" border="0"/>日常编辑 (二)</a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td width="33%" align="right"><a href="template.htm"><img src="images/next.png" border="0"/>代码模板</a></td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">命令一览</div></h3>
+		<hr>
+		<div class="t1" id="project">杂项命令</div>
+		<ul>
+			<li><span class="key">:Vjdeas {filename}</span> 将工程另存为{filename}
+			<li><span class="key">:Vjdeload {filename}</span> 载入工程{filename}
+			<li><span class="key">:Vjdesave</span> 保存当前工程
+			<li><span class="key">:Vjdec</span> 编译当前的类
+			<li><span class="key">:Vjder {class} {parameter}</span> 运行当前类.其中{class}和 {paramter} 可以没有,表示运行当前类,无参数.
+			<li><span class="key">:Vjdegd</span> 跳转到当前符号的定义.
+		</ul>
+		<div class="t1" id="edit">编辑中常用</div>
+		<ul>
+			<li><span class="key">\el</span> 将变量重构成局部变量 Extract Local variable
+			<li><span class="key">\em</span> 将变量重构成成员变量 Extract Member variable
+			<li><span class="key">\ep</span> 将变量重构成参数中的一个 Extract to Parameter
+			<li><span class="key">\en</span> 将当前选择的重构成常数.在选择模式下有用,目前只对String,byte,int,double,类型有效 Extract coNst.
+			<li><span class="key">\jt</span> 将选择的代码块用 try-catch 块包围起来. Java Try-catch block
+			<li><span class="key">\je</span> 将当前光标下使用的全类名改成缩写,并添加包引用到文件头. Java Export import.
+			<li><span class="key">\jg</span> 为当前光标下的变量生成get-set 函数. Java Getter-setter generater
+			<li><span class="key">\jc</span> 为当前光标下的符号生成文档.包括函数,变量和类. Java Commenter
+			<li><span class="key">\js</span> 将选择了的包进行排序. Java Sort import.
+			<li><span class="key">\fi</span> 在编译错误中,修正 没有找到符号的错. Fix with Import
+			<li><span class="key">\ft</span> 在编译错误中,将没有报告的异常用 try-catch 块捕获. Fix with Try-catch
+			<li><span class="key">\fr</span> 在编译错误中,将没有报告的异常用 throws 语句声明. Fix with thRows
+			<li><span class="key">\ai</span> 为当前光标下的符号添加引用.只对类有效. Add Import
+			<li><span class="key">\ri</span> 将本类中没有使用上的 import 语句进行删除. Remove Import
+			<li><span class="key">\oe</span> 重载函数. Override for Extends
+			<li><span class="key">\oi</span> 实现接口. Override for Implements
+			<li><span class="key">\as</span> 添加Singleton 模型. Add Singleton.
+		</ul>
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td width="33%"><a href="#"><img src="images/previous.png" border="0"/></a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td width="33%" align="right"><a href="#"><img src="images/next.png" border="0"/></a></td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,269 @@
+
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">日常编辑 (二)</div></h3>
+		<hr/>
+		在我们的日常编辑中,我们经常在代码上有一个重构,在变量这个级别,VJDE支持一点小的重构功能.<br/>
+在日常的编译过程中,有一些已经成为定势的编译错误解决办法,在VJDE中,也可以自动为我们完成.下面我们就来讲讲这方面的功能.<br>
+<ol>
+		<li><a href="#local">重构成局部变量</a>
+		<li><a href="#member">重构成成员变量</a>
+		<li><a href="#param">重构成参数</a>
+		<li><a href="#const">常数重构</a>
+		<li><a href="#notfound">没有找到符号的修正</a>
+		<li><a href="#try1">用 try-catch 修正</a>
+		<li><a href="#throws1">用 throws 修正</a>
+</ol>
+<br>
+		<div class="t1" id="local">重构成局部变量</div>
+		在开发过程,有时个,一个变量被定义成了块内的临时变量,可是,我们需要在块外部继续使用.这里,我们希望它的定义成为函数内部的局部变量,如下代码:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+		try {
+			File f = new File("abc");
+		}
+		catch(Exception ex) {
+			//TODO: Add Exception handler here
+		}
+	}
+}
+		</pre>
+		这个时候的 <span class="cd">f</span> 这个变量就是这样的了.我们只需要把光标移动到 f 上,然后使用命令<span class="key">\el</span>,Extract local variable. 即生成如下代码:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	public static void main(String[] args) {
+		File f = null ;
+		System.out.println( "Hello World!");
+		try {
+			f = new File("abc");
+		}
+		catch(Exception ex) {
+			//TODO: Add Exception handler here
+		}
+	}
+}
+		</pre>
+		这时候, <span class="cd">f</span>已经是一个局部变量了.<br>
+		<br>
+		<div class="t1" id="member">重构成成员变量</div>
+		一个变量我们在类中使用和开发的时候,我们忽然发现,它应该是一个成员变量,我们希望把它的定义提到类声明处.<br>虽然我们自己也可以办到,但是, VJDE 提供了一个简单的办法,仍以刚才的代码中的<span class="code">File f = new File("abc");</span>为例:<br>
+		把光标移动到<span class="cd">f</span>上后,我们使用命令 <span class="key">\em</span>,Extract member variable. 则代码如下:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	File f = null ;
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+		try {
+			f = new File("abc");
+		}
+		catch(Exception ex) {
+			//TODO: Add Exception handler here
+		}
+	}
+}
+		</pre>
+		<br>
+		<div class="t1" id="param">重构成参数</div>
+		另外一些时候,我们则有可能希望这个变量成为参数传入,而不是自己定义.<br>
+		移动光标到<span class="cd">f</span>上,我们使用命令 <span class="key">\ep</span>,Extract parameter,则生成如下代码:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	public static void main(String[] args,File f) {
+		System.out.println( "Hello World!");
+		try {
+			f = new File("abc");
+		}
+		catch(Exception ex) {
+			//TODO: Add Exception handler here
+		}
+	}
+}
+		</pre>
+		虽然这个结果不是我们想看到的main函数,但是,这个功能再此已经没有问题了. <br>
+		<br>
+		<br>
+		现在,我们再来看看 VJDE 编译错误修正功能.在编译过程中,我们有两个错误是可以明显修正的:
+		<ul>
+			<li>没有找到类.
+			<li>未捕获的异常.
+		</ul>
+		由于系统的不一样,生成的错误提示也是不一样,VJDE默认是 JDK1.5的英文支持,为了在中文环境下也使用本功能,需要将下面两行加入到你的 vimrc 文件:<br>
+		<pre class='cd'>
+let g:vjde_java_exception='\(未报告的异常\) \([^ \t;]*\)；'
+let g:vjde_java_symbol='找不到符号.*\n符号.*类\s*\([^ \t;\s]*\)\n'
+		</pre>
+	<div class="note">如果你不确定你的 java 是什么版本,请在命令行运行 javac ,看输出信息即可.</div>
+		<br>
+		<div class="t1" id="const">常数重构</div>
+		在很多的开发编程的推荐中,我们发现,Java 开发时,推荐把一些常量字符串,或者一些数字,定义为 const , 而不是直接使用值.
+		<pre class="code">
+package test;
+
+public class Test  {
+	public static  void main(String[] args) {
+        System.out.println( "Hello World!");
+        int a = 0;
+		if ( a != 100 ) {
+        }
+	}
+}
+		</pre>
+		现在,我们希望把 <span class="cd">"Hello World!"</span>做成一个常量<br>
+		第一步,我们先选择这个字符串,简单办法,移动光标到 " " 中的任何一个字符.使用<span class="key">va"</span>,请参考 <span class="key">:h a"</span><br>
+		第二步,在选择模式下,使用命令<span class="key">\en</span>, Extract coNst.<br>
+		这时,会有对话框提示我们输入我们要使用的名字,在这里,我们输入<span class="cd">HELLO</span>.<br>
+		则生成了如下的代码:
+		<pre class="code">
+package test;
+
+public class Test  {
+	private final static int HELLO =  "Hello World!" ; 
+	public static  void main(String[] args) {
+        System.out.println(HELLO);
+        int a = 0;
+		if ( a != 100 ) {
+        }
+	}
+}
+</pre>
+		现在,我们再选择数字 <span class="cd">100</span>,再次使用命令<span class="key">\en</span>,输入 <span class="cd">MAX</span>,则变成如下代码:
+<pre class="code">
+package test;
+
+public class Test  {
+	private final static int MAX = 100 ; 
+	private final static int HELLO =  "Hello World!" ; 
+	public static  void main(String[] args) {
+		System.out.println(HELLO);
+		int a = 0 ;
+		if ( a < MAX ) {
+		}
+	}
+}
+</pre>
+		这样,对于添加一个常数是不是方便了很多呢?<br>
+<br>
+		<div class="t1" id="notfound">没有找到符号的修正</div>
+		没有找到类这个错误,通常情况下,我们是需要将这个类的包加入到我的源代码中
+		<pre class="code">
+package test;
+
+
+public class Test  {
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+		File f;
+	}
+}
+		</pre>
+		我们使用<span class="cd">:Vjdec</span>进行编译后,就会发现报一个没有找到符号 File 的错误.我们都知道是需要把它引用进来.<br>
+		在VJDE中,我们可以移动到这一行,当然,本例中,编译出错后,会直接转到这一行的.<br>
+		提示: <span class="note">在编译后,自动跳转到出错,并且在出错间使用 :cn :cfirst 等等命令跳转是非常方便的.请参考 :h quickfix</span><br>
+		然后,我们使用命令 <span class="key">\fi</span>,Fix with Import. 则<span class="code">import java.io.File;</span>会被自动添加.<br>
+		当然,你也可以使用我们上面提到的命令<span class="key">\ai</span>来完成这个操作.生成的代码如下:
+		<pre class="code">
+package test;
+import java.io.File;
+
+
+public class Test  {
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+		File f;
+	}
+}
+		</pre>
+		<br>
+		对于另一种错误,就是未报告的异常.修改办法一般是两种,一是用 try-catch 块,二是添加到函数定义的 throws 语句.<br>
+		如以下代码,用<span class="key">:Vjdec</span>编译时,就会生成这个错误.
+		<pre class="code">
+package test;
+import java.net.URLConnection;
+import java.net.URL;
+
+
+public class Test  {
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+		new URL("").openConnection();
+	}
+}
+		</pre>
+		会同时有两个异常,一个是 <span class="code">MalformedURLException</span>,一个是<span class="code">IOException</span><br>
+
+<br>
+	
+		<div class="t1" id="try1">用 try-catch 修正</div>
+		如果我们希望这个代码被一个 try-catch 块包围的时候,<br>
+	我们移动到当前行,使用命令 <span class="key">\ft</span>,Fix with Try-catch.则代码自动如下:
+		<pre class="code">
+package test;
+import java.net.URLConnection;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.io.IOException;
+
+
+public class Test  {
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+		try {
+			new URL("").openConnection();
+		}
+		catch(MalformedURLException e1) {
+		}
+		catch(IOException e5) {
+		}
+	}
+}
+		</pre>
+		我们已经成功的把 异常捕获并且生成了对应的代码了,连异常的引用也自动添加了.是不是很方便? ^_^<br>
+		<br>
+		<div class="t1" id="throws1">用 throws 修正</div>
+		现在,我们再试试用 throws 语句来修正.<br>
+	我们移动到当前行,使用命令 <span class="key">\fr</span>,Fix with Try-catch.则代码自动如下:
+		
+	<pre class="code">
+package test;
+import java.net.URLConnection;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.io.IOException;
+
+
+public class Test  {
+	public static  void main(String[] args) throws IOException,  MalformedURLException {
+		System.out.println( "Hello World!");
+		new URL("").openConnection();
+	}
+}
+	</pre>
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td width="33%"><a href="daily.htm"><img src="images/previous.png" border="0"/>日常编辑 (一)</a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td width="33%" align="right"><a href="#"><img src="images/next.png" border="0"/></a></td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+body {
+	font-size: 12px;
+	color: black;
+	background-color:#ccc;
+}
+a:link, a:visited {
+	font-size: 12px;
+	color: black;
+	background-color:#aaa;
+	text-decoration: none;
+}
+a:hover,a:focus {
+	font-size: 12px;
+	text-decoration: underline;
+	background-color:#ffcc66;
+	color: black;
+}
+a:active {
+	font-size: 12px;
+	color: black;
+	background-color:#aaa;
+	text-decoration: none;
+}
+.code {
+	background-color:#ffffff;
+	color:#000000;
+	text-decoration: bold;
+}
+.cd {
+	color: blue;
+	background-color:#ccc;
+	text-decoration: bold;
+}
+.note {
+	color:red;
+	text-decoration: italic;
+}
+.key {
+	font-size: 16px;
+	color:red;
+	background-color:black;
+	text-decoration: bold;
+}
+.t1 {
+	font-size: 16px;
+	color:blue;
+	text-decoration: bold;
+}

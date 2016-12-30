@@ -1,0 +1,325 @@
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">日常编辑</div></h3>
+		<hr>
+		在日常编辑中,我们经常要添加新的包到我们文件里,或者是新的类.那么,在 VJDE 里,应该怎样做比较好呢?
+<br>
+<ol>
+<li><a href="#gotod">跳转到定义</a>
+<li><a href="#export">导出包</a>
+<li><a href="#add">自动添加包</a>
+<li><a href="#remove">删除没有使用的已经导入的类</a>
+<li><a href="#sort">包排序</a>
+<li><a href="#tryb">将代码包括在 try-catch 块中</a>
+<li><a href="#cmt">添加注释</a>
+<li><a href="#getter">生成 Getter , Setter 函数</a>
+<li><a href="#cons">生成 包含所有成员变量的构造函数</a>
+<li><a href="#singleton">生成 当前类的 Singleton 模型</a>
+</ol>
+<br>
+		<br>
+<div class="t1" id="gotod">跳转到定义</div>
+在程序编辑过程中,我们经常需要跳转到别的函数或者变量定义的地方,在 VJDE 中,提供了一个粗糙的方法来完成这个功能.<br>
+通常,我在以下两变量中来定位,一是<span class="cd">path</span>中,请参考<span class="key">:h path</span>,二是<span class="cd">g:vjde_src_path</span>,
+将光标移动到你要查看的函数或者成员上,使用命令<span class="key">:Vjdegd</span>,则自动跳转到当前符号的定义上去.<br>
+提示:<div class="note">目前,对于函数重载的跳转还不能精确.</div>
+提示:<div class="note">默认时,VJDE跳转前自动添加了一个标记<span class="cd">J</span>,即,当你希望回到你跳转前的位置,使用命令<span class="key">'J</span>即可.</div>
+<br>
+		下面,我们就来讲如何处理这些细节.首先,我们可以使用代码补全来完成整个包的全路径书写,如:
+<div class="t1" id="export">导出包</div>
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+        public static void main(String[] args) {
+			System.out.println( "Hello World!");
+			java.util.Vector
+        }
+}
+		</pre>
+		在这种情况下,我们希望把这一行,变成<span class="cd">Vector</span>,而不把整个包全使用在这里.我们只需要把光标放到<br>
+		<span class="cd">Vector</span>上,然后使用命令<span class="key">\je</span>,即java extract import .<br>
+		则代码变成如下样子:
+		<pre class="code">
+package test;
+import java.util.Vector;
+
+
+public class Test extends Thread implements MouseListener {
+        public static void main(String[] args) {
+			System.out.println( "Hello World!");
+			Vector
+        }
+}
+		</pre>
+<div class="t1" id="add">自动添加包</div>
+		在另外一些时候,我们知道我们要使用的类的名字,其实我们也知道他所在的位置,比如 <span class="cd">java.io.File</span><br>
+		通常情况下,我们需要在下面输入<span class="cd">File</span>在文件头加上<span class="cd">import java.io.File</span><br>
+		在 VJDE 里,你只需要很简单就可以完成上述的功能了.<br>
+		输入 <span class="cd">File</span>, 然后,把光标移动到 <span class="cd">File</span>上,然后,使用命令<span class="key">\ai</span>即 Add import.<br>
+		<pre class="code">
+package test;
+import java.util.Vector;
+import java.io.File;
+
+
+public class Test extends Thread implements MouseListener {
+        public static void main(String[] args) {
+			System.out.println( "Hello World!");
+			Vector vs;
+			File
+        }
+}
+		</pre>
+		VJDE自动查找名为File 的类,添加到正确的位置,如果有多个类叫这个名字的时候,会提示选择.<br>
+<br>
+<div class="t1" id="remove">删除没有使用的已经导入的类</div>
+	当我们使用上述方法添加了需要的包的时候,由于代码的调整,我们可能有些类已经又不再使用了.
+<br>因此,我们希望我们可以将一些不再使用的类从<span class="cd">import</span>列表中删除.在 VJDE 中,我们可以这样做,如下代码:<br>
+<pre class="code">
+package test;
+
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.*;
+import java.swing.JApplet;
+
+public class Test  {
+	private final static int HELLO =  "Hello World!" ; 
+	public static  void main(String[] args) {
+		System.out.println(HELLO);
+		URL u;
+	}
+}
+</pre>
+	在类的任何地方,我们使用命令<span class="key">\ri</span>, 即 Remove Import.
+<br>
+则代码自动变成如下:
+<pre class="code">
+package test;
+
+import java.net.URL;
+import java.util.*;
+
+public class Test  {
+	private final static int HELLO =  "Hello World!" ; 
+	public static  void main(String[] args) {
+		System.out.println(HELLO);
+		URL u;
+	}
+}
+</pre>
+目前,VJDE还不能删除以<span class="cd">import ....*;</span>类型的导入.
+<br><br>
+<div class="t1" id="sort">包排序</div>
+		通过这样的编辑,我们的 import 语句就越来越多,当我们完成一个类的时候,这些语句已经很乱了.<br>
+		于是. VJDE 提供了对 import 进行排序的方法. <br>
+		首先,我们选择我们所有的 import  语句.
+		然后使用命令 <span class="key">\js</span> Java sort import. 则我们刚才的代码变成如下:
+		<pre class="code">
+package test;
+import java.io.File;
+import java.util.Vector;
+
+
+public class Test extends Thread implements MouseListener {
+        public static void main(String[] args) {
+			System.out.println( "Hello World!");
+			Vector vs;
+			File
+        }
+}
+		</pre>
+		我们的 import 已经排序了.在通常情况下,我按如下方式进行排序:<br>
+		<pre class="code">
+import java.a..
+import java.b...
+
+import javax.a...
+import javax.b...
+
+import org.a...
+import org.b..
+
+import net.a
+import net.b..
+
+import com.a...
+		</pre>
+		中间的空行也会自动生成.<br>
+		提示:<span class="note">在选择一行或者多行的时候,不需要精确选择,只要那一行中有一个字符以上被选择即可.</span><br>
+		<br>
+<div class="t1" id="tryb">将代码包括在 try-catch 块中</div>
+		在 Java 中的异常处理,也是我们经常遇到的一个问题,因此,我们需要经常为一些函数调用加上try-catch 模块.<br>
+		这是一个简单的操作,但是,由于经常要用,也是很烦人的. VJDE 也提供了一个简单的实现来解决这个问题.<br>
+		当然,目前这个解决方案还很简单,但是,也勉强可以用了.假如我们有如下的代码:
+		<pre class="code">
+package test;
+import java.io.File;
+import java.util.Vector;
+
+
+public class Test extends Thread implements MouseListener {
+        public static void main(String[] args) {
+			System.out.println( "Hello World!");
+			Vector vs;
+			File f = new File("test.txt");
+        }
+}
+		</pre>
+		我们希望为 File 这一行加上 try-catch,因为有一个 FileNotFound的异常.<br>
+		我们选择了这一行或者多行后,使用命令<span class="key">\jt</span>, Java Try-catch <br>
+		则代码就变成了:
+		<pre class="code">
+package test;
+import java.io.File;
+import java.util.Vector;
+
+
+public class Test extends Thread implements MouseListener {
+        public static void main(String[] args) {
+			System.out.println( "Hello World!");
+			Vector vs;
+			try {
+				File f = new File("test.txt");
+			}
+			catch(Exception ex) {
+				//TODO: Add Exception handler here
+			}
+        }
+}
+		</pre>
+		这个功能目前的缺陷是明显的,我没有区分出任何的异常,只是把它简单的做成了 Exception. 不要担心,后面有一种方法可以使VJDE精确的分出异常类别而正常使用.
+		提示:<span class="note">在选择一行或者多行的时候,不需要精确选择,只要那一行中有一个字符以上被选择即可.</span><br>
+		<div class="t1" id="cmt">添加注释</div>
+		java 的文档格式要求是比较严格的,我们开发过程中也要求添加标准注释.目前,VJDE 已经可以为你生成这个文档模板了.	有如下的代码:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+	}
+	public int caculate(int b,int c) throws IOException {
+		return 0;
+	}
+}
+		</pre>
+		我们要为 caculate添加注释,我们只需要把光标移动到 caculate 函数上,然后使用命令<span class="key">\jc</span>,Java Commenter.我们即看到 VJDE 生成了如下代码:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+	}
+	/** 
+	 * 
+	 * @param b 
+	 * @param c 
+	 * @return 
+	 * @throws IOException 
+	 */
+	public int caculate(int b,int c) throws IOException {
+		return 0;
+	}
+}
+		</pre>
+		已经将变量,返回值,异常处理的标准格式为我们准备好了,等什么呢,只需要添加你要的注释就行了.<br>
+		你可以将这个应用,使用到类,变量和函数上面.<br>
+
+		<br>
+		<div class="t1" id="getter">生成 Getter , Setter 函数</div>
+		在 Java  开发中,由于不推荐直接将变量暴露在外.因此,我们需要为变量写 Get, Set 函数,还要加注释,是不是很烦?
+		VJDE 为你简化了这些工作. 有如下代码:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	String name;
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+	}
+}
+		</pre>
+		我们将光标移动到 name 变量上,使用命令<span class="key">\jg</span> Java Getter,即生成如下代码:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	String name;
+	/**
+	 * get the value of name
+	 * @return the value of name
+	 */
+	public String getName(){
+		return this.name;
+	}
+	/**
+	 * set a new value to name
+	 * @param name the new value to be used
+	 */
+	public void setName(String name) {
+		this.name=name;
+	}
+	public static void main(String[] args) {
+		System.out.println( "Hello World!");
+	}
+}
+		</pre>
+		是不是已经自动生成了Get  Set 函数还添加了简单的注释?<br>
+		<br>
+		<div class="t1" id="cons">生成 包含所有成员变量的构造函数</div>
+		 当我们的一个类有很多成员变量的时候,特别是一些以定义数据为主的时候,我们需要为它生成一个全参数的构造函数,是一件比较麻烦的事情,一个一个参数的输入是不是很麻烦的一件事情?<br>
+		 在VJDE中,你可以这样做.在你的工程设置正常的情况下,编译你需要生成的类,然后,到类开头的地方,使用命令<span class="key">:call VjdeGenerateConstructor()</span>,或者命令<span class="key">\jc</span>则自动生成一个简单的构造函数了.<br>
+		 <br>
+		<div class="t1" id="singleton">生成 当前类的 Singleton 模型</div>
+		很多时候,我们需要把一个类做成 Singleton的单一实例模式.代码本来是很简单,可是,重复写也不是办法.于是 VJDE 就有了这个简单工具.这个工作是使用内置的<a href="template.htm">代码模板</a>来完成的.<br>
+		有菜单的情况下,使用菜单,没有菜单的情况下,使用如下的命令<span class="key">:call VjdeAppendTemplate("Singleton")</span>或者<span class="key">\as</span>,Add Sigleton.以我们上面使用的 Test 为例,生成如下的代码:
+		<pre class="code">
+package test;
+
+
+public class Test extends Thread implements MouseListener {
+	private static Test instance = null;
+	private Test() {
+	}
+	public synchronized static Test getInstance() {
+		if ( instance == null) {
+			instance = new Test();
+		}
+		return instance;
+	}
+	public static void main(String[] args,File f) {
+		System.out.println( "Hello World!");
+		try {
+			f = new File("abc");
+		}
+		catch(Exception ex) {
+			//TODO: Add Exception handler here
+		}
+	}
+}
+		</pre>
+		提示,<span class="note"> 为了生成正确的代码,请移动光标到类定义下一行开始,VJDE会生成定义在当前位置.<span>
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td width="33%"><a href="override.htm"><img src="images/previous.png" border="0"/>继承/实现</a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td width="33%" align="right"><a href="daily2.htm"><img src="images/next.png" border="0"/>日常编辑 (二)</a></td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,46 @@
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">新建一个类</div></h3>
+		<hr>
+		我们现在需要一个 HelloWord 的程序用来完成我们的开发任务．通常，我们可以用两种方式来创建这个类．
+		<ol>
+			<li> 使用向导 <span class="cd">:VjdeNclass</span>来创建一个类， 或者<span class="cd">:VjdeNmain</span> 来创建一个包括一个 main　函数的类
+			<li> 使用 <span class="cd">:e Test.java</span> 来创建这个类.^_^
+		</ol>
+		使用向导创建的类，可能是如下的样子:<br>
+
+<pre class="code">
+
+<font color="#0000ff">/*</font>
+<font color="#0000ff"> * Test.java 1.00 Wed Aug 30 16:05:57 中国标准时间 2006</font>
+<font color="#0000ff"> *</font>
+<font color="#0000ff"> * 版权信息</font>
+<font color="#0000ff"> */</font>
+
+<font color="#a020f0">package</font> test;
+
+<font color="#2e8b57"><b>public</b></font> <font color="#2e8b57"><b>class</b></font> Test {
+        <font color="#2e8b57"><b>public</b></font> <font color="#2e8b57"><b>static</b></font> <font color="#2e8b57"><b>void</b></font> main(String[] args) {
+        }
+}
+<font color="#0000ff">// vim: ft=java</font>
+</pre>
+这就是由代码向导功能创建的类．这个向导的模板是可以自定义和修改的，这将在后面详细解释．<br>
+
+如果我们使用了工程管理，并指定了<span class='cd'>g:vjde_src_path</span>,则 test/Test.java 会生成在指定的目录下,如:src/test/Test.java. 否则,将会使用当前目录生成目录结构.<br>
+好了,将以 Test.java 为例,把 VJDE 的魅力一点点向你展开.
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td><a href="index.htm"><img src="images/previous.png" border="0"/>管理工程</a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td align="right"><a href="completion.htm"><img src="images/next.png" border="0"/>代码提示</a></td>
+			</tr>
+		</table>
+	</body>
+</html>

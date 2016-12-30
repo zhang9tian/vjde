@@ -1,0 +1,62 @@
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">代码提示</div></h3>
+		<hr>
+		现在,我们有一个Test.java , 我们希望在里面输出一个 Hello World 作为我们的第一个开发计划.^_^,好像目标有点小.<br>
+		基本上,我们知道,有个System<br>
+		因此,我们需要输入 System. 然后呢,我们希望能看到提示,这时输入ctrl+x ctrl+u,有如下屏幕:
+	<img src="images/cmp-1.jpg" border="0"/>
+		<br>
+		在这里,我们可以用:
+		<blockquote>
+			ctrl+n 选择下一条<br>
+			用 ctrl+p 选择上一条<br>
+			用 ctrl+y 确认当前选择的作为输入<br>
+			ctrl+e 拒绝本次菜单
+		</blockquote>
+		小提示 <span class="note">在没有菜单表示选中时,这里可以用键盘输入进行过滤.要让菜单不选择,菜单显示出来后直接使用ctrl+p 即可.</span><br>
+		同样,当我们用二次 ctrl+n,一次 ctrl+y  选择了out 这个变量的时候,再输入一个 . ,现在,输入行变成了:<br>
+		<pre class="code">System.out.</pre>
+		再次使用 ctrl+x ctrl+u 的代码提示功能:<br>
+	<img src="images/cmp-2.jpg" border="0"/><br>
+	
+
+		到此,我们已经知道如何提示函数,成员变量了.
+<br>小提示<span class="note">如果你只是想提示选择一个本类中的成员变量或者变量,或者函数,你不需要这么复杂的功能,使用 ctrl+x ctrl+p / ctrl+x ctrl+n 就可以了.</span><br>
+
+		下面,我们再介绍如何提示 package.
+		输入 <span class="code">import java.</span>后,就可以使用 ctrl+x ctrl+u 进行提示了.<br>
+	<img src="images/cmp-3.jpg" border="0"/><br>
+		输入 <span class="code">import java.util.</span>后,就可以使用 ctrl+x ctrl+u 进行提示了.<br>
+	<img src="images/cmp-4.jpg" border="0"/><br>
+
+		或者,在编辑过程中,直接输入 <span class="cd">java.util.</span> 用 ctrl+x ctrl+u 提示,选择你喜欢的类,如 Vector <br>
+	<img src="images/cmp-5.jpg" border="0"/><br>
+		此时,编辑界面就是
+		<pre class="code">
+			java.util.Vector
+		</pre>
+		在这种情况下,我推荐大家再使用一个命令,移动光标到<span class="code">Vector</span>上,使用命令<span class="cd">\je</span> <span class="note">这是一个通常模式下的命令</span>,把代码格式化如下:
+		<pre class="code">
+import java.util.Vector;
+...
+	Vector 
+		</pre>
+		好了,代码提示就说到这里.<br>
+		提示:<span class="note">如果你直接在一个括号后面直接使用 ctrl+x ctrl+u ,你将得到这个函数的参数提示.</span>
+
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td width="33%"><a href="newclass.htm"><img src="images/previous.png" border="0"/>创建一个类</a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td width="33%" align="right"><a href="compile.htm"><img src="images/next.png" border="0"/>编译并运行</a></td>
+			</tr>
+		</table>
+	</body>
+</html>

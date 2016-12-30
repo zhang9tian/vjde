@@ -1,0 +1,47 @@
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">创建一个 VJDE 工程</div></h3>
+		<hr>
+		1. 使用菜单 Vim JDE-&gt;Project-&gt;New Java Project
+		<blockquote>
+			<ol>
+				<li>Vim JDE-&gt;Project-&gt;New Java Project...
+				<li>选择一个文件做为工程文件名，通常可以使用 .vjde 
+				<li>输入一个源代码目录，通常为: src
+				<li>输入一个输出目录,通常用: classes
+			</ol>
+		</blockquote>
+		2.  对于非图形界面用户，可以使用命令: 
+		<div class="key">
+			:call VjdeJavaNewProject()
+			</div>
+		<hr>
+		对于已经创建的工程，在使用中，请注意以下几点:
+		<blockquote>
+			<ol>
+				<li> 由于工程使用相对路径，因此，通常使用时，请用<span class="key">:cd [工程根目录]</span> 先切换到工作目录.
+				<li> 工程中使用的工程文件，其实是一个 vim 脚本文件．所以，可以使用<span class="key">:so [工程文件名]</span> 来加载工程设置．
+				<li>在工程文件中，包含了以下一些变量，用来定义工具概况．
+				<li><span class="key">g:vjde_src_path</span> 来表示源代码路径，可以使用相对路径或者绝对路径．
+				<li><span class="key">g:vjde_out_path</span> 这是表示编译输出路径．
+				<li><span class="key">g:vjde_lib_path</span> 这是我们编译运行时将使用的 classpath,如页<span class="key">build/classes;lib/dicom.jar;lib/image.jar;</span><span class="note">在Linux 系统上使用<span class="key">:</span>代替<span class="key">;</span></span>
+				<li><span class="key">g:vjde_test_path</span>这是用来生成单元测试代码所在的位置.
+				<li><span class="key">g:vjde_web_app</span>这是web-app 所在的目录，通常是用来大家存放jsp,html的位置.
+				<li>由于工程文件是一个 vim 文件，所以，你可以使用 vim 打开并编辑它．
+				<li><span class="note">要使用修改后的项目生效，除了使用<span class="key">:so 工程文件</span>外，还要执行</span><span class="key">:let g:vjde_java_cfu={}</span>以使得在代码提示中生效．
+			</ol>
+		</blockquote>
+		<table width="100%" border="0">
+			<tr>
+				<td><a href="install.htm"><img src="images/previous.png" border="0"/>安装</a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td align="right"><a href="newclass.htm"><img src="images/next.png" border="0"/>创建一个类</a></td>
+			</tr>
+		</table>
+	</body>
+</html>

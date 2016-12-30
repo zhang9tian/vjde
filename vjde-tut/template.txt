@@ -1,0 +1,19 @@
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center"></div></h3>
+		<hr>
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td width="33%"><a href="#"><img src="images/previous.png" border="0"/></a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td width="33%" align="right"><a href="#"><img src="images/next.png" border="0"/></a></td>
+			</tr>
+		</table>
+	</body>
+</html>

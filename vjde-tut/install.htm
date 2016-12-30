@@ -1,0 +1,44 @@
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">安装</div></h3>
+		<hr>
+		1. 软件需求:
+		<ul>
+			<li> Vim 7.0 以上版本
+			<li> VJDE 最新版本
+			<li> ruby 1.8.0 以后版本(这主要是用于代码模板功能和向导功能,如果不使用这两功能，可以不安装)
+		</ul>
+		2-a 软件下载: (windows 用户)
+		<ol>
+			<li> 从<a href="ftp://ftp.vim.org/pub/vim/pc/gvim70.exe">VIM 主站</a>下载7.0标准完整版.
+			<li> 从<a href="http://sourceforge.net/project/showfiles.php?group_id=43866&package_id=39721" target="about:blank">Cream 下载 最新Vim</a>,覆盖安装7.0标准版.这样,可以使用标准版中的中文,也可使用最新版的补丁.以后升级只要升级本部分即可.
+		<li>从<a href="http://rubyforge.org/frs/?group_id=167" target="about:blank">下载 ruby for Windows.</a>
+		<li> 从<a href="http://www.vim.org/scripts/script.php?script_id=1213" target="about:blank">下载 VJDE　最新版</a>
+		</ol>
+		2-b 软件下载，(Linux 用户)
+		<ol>
+			<li> 从<a href="http://www.vim.org/download.php" target="about:blank">Vim 下载站</a>下载你适合的源代码．
+			<li> 如果你的系统没有 ruby ,请从<a href="http://www.ruby-lang.org" target="about:blank">Ruby 主站</a>下载 Ruby.
+		<li> 从<a href="http://www.vim.org/scripts/script.php?script_id=1213" target="about:blank">下载 VJDE　最新版</a>
+		</ol>
+		3. 我们把 $VIM 定义成为你的 VIM所在的目录，如我使用 vim70 在 d:\vim\vim70 下，则 $VIM 指 d:\vim<br>
+		对于 Linux  用户 ,$VIM  可能就是 /usr/share/vim , 安装只需要把 vjde.tgz 解压缩到　$VIM\vimfiles 下即可．
+		<div class="cd"> tar -xzf vjde.tgz -C /usr/share/vim/vimfiles</div>
+
+		现在，安装成功了，如果你需要使用包括了一个以上的java文件，并且引用了外部的jar 的时候，请使用<a href="project.htm">工程</a>开始你的 VJDE 之旅．<br>
+		如果你只需要一两个类来做个小测试，请从<a href="newclass.htm">新建一个类</a>开始.
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td><a href="index.htm"><img src="images/previous.png" border="0"/>目录</a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td align="right"><a href="project.htm"><img src="images/next.png" border="0"/>管理工程</a></td>
+			</tr>
+		</table>
+	</body>
+</html>

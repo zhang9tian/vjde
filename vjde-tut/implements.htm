@@ -1,0 +1,53 @@
+
+<html>
+	<meta content="text/html;charset=gb2312" http-equiv="Content-Type"/>
+	<head>
+		<title> Vim JDE 使用手册</title>
+		<link href="default.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<h3><div align="center">实现接口</div></h3>
+		<hr>
+		重载函数是我们日常编写工作中比较容易遇到的工作.因此,VJDE提供了一个功能,就是让你选择你要重载的函数,它为你生成框架.<br>
+		在使用本功能前,请将你的 <span class="code"> extends BaseClass</span>添加到你的类定义处,然后使用菜单或者命令<br>
+		<span class="cd">\oe</span>即可调出此功能,没有指定父类,则使用<span class="code">Object</span>做为父类.<br>
+		<pre class="code">
+package test;
+
+import java.util.*;
+
+public class Test extends Thread {
+        public static void main(String[] args) {
+			System.out.println("Hello World!");
+        }
+}
+</pre>
+在普通模式下,使用命令<span class="cd">\oe</span>
+选择了 32 后,变成如下样子:
+<pre class="code">
+package test;
+
+import java.util.*;
+
+public class Test extends Thread {
+        public static void main(String[] args) {
+			System.out.println("Hello World!");
+        }
+	/**
+	 * @see java.lang.Thread#run() run
+	 */
+	public void run() {
+	}
+}
+	</pre>
+	提示:<span class="note">在输入你要重载的方法的时候,可以使用<span class="cd">1,2,3</span>或者<span class="cd">1-5</span>这样可以提高输入速度.</span>
+		<hr/>
+		<table width="100%" border="0">
+			<tr>
+				<td width="33%"><a href="compile.htm"><img src="images/previous.png" border="0"/>编译及运行</a></td>
+				<td align="center"><a href="index.htm"><img src="images/house.png" border="0"/>主目录</a></td>
+				<td width="33%" align="right"><a href="implements.htm"><img src="images/next.png" border="0"/>实现接口</a></td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gb2312"?>
+<project basedir="." default="all" name="myapp">
+
+    <target name="init">
+        <property file="build.properties"/>
+        <path id="project.classpath">
+            <pathelement path="${dest.class.dir}"/>
+            <fileset dir="${project.lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+    </target>
+ <!--ddddddddddddddddd-->
+   <target name="all">
+        <antcall target="compile"/>
+    </target>
+
+
+    <target depends="init" name="compile">
+        <mkdir dir="${dest.class.dir}"/>
+        <javac debug="true" deprecation="true" destdir="${dest.class.dir}" 
+            srcdir="${java.src.dir}" classpathref="project.classpath">
+        </javac>
+    </target>
+
+    <target depends="init" name="run">
+            <java classname="vjde.completion.Completion" classpathref="project.classpath" 
+                    
+                    classpath="${dest.class.dir}">
+                    <arg value="java.awt.geom.Arc2D"/>
+            </java>
+    </target>
+    <target depends="init" name="jar">
+            <jar destfile="vjde.jar" basedir="install/classes">
+                    <manifest>
+                            <attribute name="Main-Class" value="vjde.completion.Completion"/>
+                    </manifest>
+            </jar>
+	    <copy file="vjde.jar" todir="plugin/vjde"></copy>
+    </target>
+
+    <target depends="init" name="tgz">
+	    <tar destfile="vjde2.tar.gz" compression="gzip">
+		    <tarfileset dir="." includes="src/**,plugin/*.vim plugin/vjde/*.vim plugin/vjde/*.rb plugin/vjde/*.jar plugin/vjde/tlds/* doc/*.txt syntax/*.vim"/>
+	    </tar>
+    </target>
+	<target name="dtd">
+	<antstructure output="ant.dtd"/>
+	</target>
+
+
+    <target depends="init" name="install">
+	    <copy todir="${vim.plugin.dir}/vjde"> 
+		    <fileset dir="plugin/vjde" includes="*.*"/>
+	    </copy>
+            <copy todir="${vim.plugin.dir}/vjde/tlds"> 
+                <fileset dir="plugin/vjde/tlds" includes="*.*"/>
+	    </copy>
+	    <copy todir="${vim.plugin.dir}/"> 
+		    <fileset dir="plugin" includes="*.vim"/>
+	    </copy>
+
+    </target>
+
+</project>

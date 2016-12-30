@@ -1,0 +1,43 @@
+
+TARGET=preview.exe
+
+OUT_DIR=install
+
+COMM_OBJS=$(OUT_DIR)/previewwindow.o $(OUT_DIR)/my_system.o
+
+COMPILE= gcc `pkg-config --cflags gtk+-2.0`  -g -c -DDLL -D_WIN32 -mms-bitfields 
+COMPILE2= g++ `pkg-config --cflags gtk+-2.0`  -g -c -DDLL -D_WIN32 -mms-bitfields 
+
+#LINKS= 
+LIBS=`pkg-config --libs gtk+-2.0`
+LINK=g++
+
+ALL	: $(TARGET)
+	$(LINK)  -o $(TARGET) $(COMM_OBJS) $(LIBS) -mms-bitfield -mwindows
+
+$(TARGET)	:$(COMM_OBJS)
+$(OUT_DIR)/%.o 	: src/%.c
+	$(COMPILE)  -o "$(OUT_DIR)/$(*F).o" "$<" 
+
+
+$(OUT_DIR)/%.o 	: src/%.cpp
+	$(COMPILE2) -mwindows -mms-bitfields -o "$(OUT_DIR)/$(*F).o" "$<"
+
+clean	:
+	rm $(OUT_DIR)/*.o
+	rm $(TARGET)
+
+dll	:plugin/vjde/preview.dll  
+
+plugin/vjde/preview.dll	:$(COMM_OBJS) wspawn
+	g++ -shared -o plugin/vjde/preview.dll  $(COMM_OBJS) `pkg-config --libs gtk+-2.0 ` -DDLL -D_WIN32 -mms-bitfields -mwindows 
+
+win	:dll
+	cp plugin/vjde/preview.dll d:/vim/vimfiles/plugin/vjde 
+
+wspawn	: src/wspawn.cpp
+	g++ -static -o plugin/vjde/wspawn.exe src/wspawn.cpp
+
+readtags	: src/readtags.c
+	g++ -static -o plugin/vjde/readtags.exe src/readtags.c -DREADTAGS_MAIN -mwindows
+
